@@ -349,8 +349,8 @@ Definition kruisen (s s1 : S) :=
 
 Definition magGroenWorden (t:T) (s:S) :=
    forall s1:S,
-         s <> s1
-      ->
+         s = s1
+      \/
          (
             ~kruisen s s1
          \/
