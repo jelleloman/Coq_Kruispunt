@@ -340,8 +340,8 @@ Definition kruisen (s s1 : S) :=
 
 Definition magGroenWorden (t:T) (s:S) :=
    forall s1:S,
-         s <> s1
-      ->
+         s = s1
+      \/
          (
             ~kruisen s s1
          \/
@@ -404,29 +404,28 @@ Definition bestuuringseenheid :=
     - ze worden eerst oranje en daarna rood nadat ze <tijdGroen> seconden groen waren
 *)
 
-Definition stoplicht :=
+Definition stoplicht (s:S) :=
     forall t:T,
-        forall s:S,
-                (
-                        geefKleur t s = groen
-                    ->
-                        isGroen (t+1) s
-                )
-            /\
-                (
-                        geefKleur t s = oranje
-                    ->
-                        isOranje (t+1) s
-                )
-            /\
-                (
-                        geefKleur t s = rood
-                    ->
-                        isRood (t+1) s
-                )
+            (
+                    geefKleur t s = groen
+                ->
+                    isGroen (t+1) s
+            )
+        /\
+            (
+                    geefKleur t s = oranje
+                ->
+                    isOranje (t+1) s
+            )
+        /\
+            (
+                    geefKleur t s = rood
+                ->
+                    isRood (t+1) s
+            )
 .
 (*
-    Stoplichten wijzigen hun kleur op de volgende tijdstip nadat ze een bijbehorend signal hebben gekregen.
+    Stoplicht s wijzigt zijn kleur op de volgende tijdstip nadat hij een bijbehorend signaal heeft gekregen.
 *)
 
 (* ====================================================================== *)
@@ -461,6 +460,16 @@ Definition kruispunt :=
 			  /\
 			  	isRood (t1+tijdGroen+3) (geefStoplicht v)
 .
+(*
+    Voor alle tijdpunten en alle voorsorteervakken geldt dat als er op
+    tijdpunt t een auto in voorsorteervak v staat dan is er een later
+    tijdpunt t1 waarvoor geldt dat het bij voorsorteervak v horende
+    stoplicht op moment t1 groen, op moment t1+<tijdGroen>+2 oranje,
+    en op tijdpunt t1+<tijdGroen>+3 rood is.
+
+    Wij hebben ervoor gekozen om geen stroom in ons model op te nemen omdat het
+    niet interessant is en naar onze mening niets toevoegt.
+*)
 
 (* ====================================================================== *)
 
